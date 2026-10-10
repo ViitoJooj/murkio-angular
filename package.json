@@ -1,0 +1,42 @@
+{
+  "name": "@murkio/angular",
+  "version": "0.1.0",
+  "description": "Murkio identity for Angular: provideMurkio(), auth signals, a route guard and an HTTP interceptor for the <murkio-identity-*> elements.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@murkio/html": "0.1.0"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=17",
+    "@angular/core": ">=17",
+    "@angular/router": ">=17",
+    "rxjs": "^7.4.0"
+  },
+  "devDependencies": {
+    "@angular/common": "21.2.24",
+    "@angular/compiler": "21.2.24",
+    "@angular/core": "21.2.24",
+    "@angular/platform-browser": "21.2.24",
+    "@angular/router": "21.2.24",
+    "rxjs": "7.8.2"
+  }
+}
