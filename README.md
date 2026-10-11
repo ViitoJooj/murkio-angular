@@ -40,3 +40,17 @@ export class Login {
   hosts explicitly (`murkioInterceptor(['https://api.example.com/'])`).
 - With SSR the client is created in the browser only; the guard lets the server render
   and runs again in the browser.
+
+## Developing
+
+This repository is a git submodule of the Murkio identity service
+(`libs/external/angular`) and is developed from there: the JavaScript packages share one
+npm workspace, and the tests read the contract, the vectors and the fixtures every Murkio
+SDK shares (`libs/spec`).
+
+```sh
+# in libs/ of the service repository, cloned with --recurse-submodules
+npm ci
+npm run build
+npm test
+```
