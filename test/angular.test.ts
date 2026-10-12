@@ -26,10 +26,12 @@ function injector(platform = 'browser'): EnvironmentInjector {
 }
 
 function signIn(env: EnvironmentInjector, roles: string[] = []) {
-  env.get(MURKIO)!.session.setSession(
-    { access_token: jwt({ sub: 'u', sid: 's', exp: Math.floor(Date.now() / 1000) + 900, roles }), token_type: 'Bearer', expires_in: 900, refresh_token: 'rt', session_id: 's' },
-    true,
-  );
+  env
+    .get(MURKIO)!
+    .session.setSession(
+      { access_token: jwt({ sub: 'u', sid: 's', exp: Math.floor(Date.now() / 1000) + 900, roles }), token_type: 'Bearer', expires_in: 900, refresh_token: 'rt', session_id: 's' },
+      true,
+    );
 }
 
 afterEach(() => {
@@ -71,7 +73,9 @@ describe('@murkio/angular', () => {
     signIn(env);
     const next: HttpHandlerFn = (request) => of(request as unknown as HttpEvent<unknown>);
     const run = (url: string) =>
-      runInInjectionContext(env, () => firstValueFrom(murkioInterceptor(['https://api.example.com/'])(new HttpRequest('GET', url), next) as Observable<HttpEvent<unknown>>)) as Promise<unknown> as Promise<HttpRequest<unknown>>;
+      runInInjectionContext(env, () =>
+        firstValueFrom(murkioInterceptor(['https://api.example.com/'])(new HttpRequest('GET', url), next) as Observable<HttpEvent<unknown>>),
+      ) as Promise<unknown> as Promise<HttpRequest<unknown>>;
 
     expect((await run('/api/orders')).headers.get('Authorization')).toMatch(/^Bearer /);
     expect((await run('https://api.example.com/orders')).headers.get('Authorization')).toMatch(/^Bearer /);

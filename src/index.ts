@@ -1,14 +1,4 @@
-import {
-  DestroyRef,
-  ENVIRONMENT_INITIALIZER,
-  InjectionToken,
-  PLATFORM_ID,
-  inject,
-  makeEnvironmentProviders,
-  signal,
-  type EnvironmentProviders,
-  type Signal,
-} from '@angular/core';
+import { DestroyRef, ENVIRONMENT_INITIALIZER, InjectionToken, PLATFORM_ID, inject, makeEnvironmentProviders, signal, type EnvironmentProviders, type Signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import type { HttpInterceptorFn } from '@angular/common/http';
 import { Router, type CanActivateFn } from '@angular/router';
@@ -67,7 +57,11 @@ export function injectAuth(): Auth {
       claims.set(next);
       isSignedIn.set(next !== null);
       if (!next) user.set(null);
-      else murkio.getUser().then((profile) => user.set(profile), () => user.set(null));
+      else
+        murkio.getUser().then(
+          (profile) => user.set(profile),
+          () => user.set(null),
+        );
     });
     inject(DestroyRef).onDestroy(stop);
   }
@@ -119,9 +113,7 @@ export function murkioInterceptor(prefixes: string[] = []): HttpInterceptorFn {
     const murkio = inject(MURKIO);
     const matches = sameOrigin(request.url) || prefixes.some((prefix) => request.url.startsWith(prefix));
     if (!murkio || !matches || request.headers.has('Authorization')) return next(request);
-    return from(murkio.getToken()).pipe(
-      switchMap((token) => next(token ? request.clone({ setHeaders: { Authorization: `Bearer ${token}` } }) : request)),
-    );
+    return from(murkio.getToken()).pipe(switchMap((token) => next(token ? request.clone({ setHeaders: { Authorization: `Bearer ${token}` } }) : request)));
   };
 }
 

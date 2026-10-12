@@ -3,15 +3,24 @@
   "version": "0.1.0",
   "description": "Murkio identity for Angular: provideMurkio(), auth signals, a route guard and an HTTP interceptor for the <murkio-identity-*> elements.",
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ViitoJooj/murkio-angular.git"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "files": [
@@ -19,11 +28,17 @@
   ],
   "scripts": {
     "build": "tsup",
+    "prepare": "npm run build",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "lint": "biome lint --error-on-warnings .",
+    "package:check": "publint --strict",
+    "prepublishOnly": "node scripts/check-publishable.mjs"
   },
   "dependencies": {
-    "@murkio/html": "0.1.0"
+    "@murkio/html": "github:ViitoJooj/murkio-html#4ccc8ea80507f56b11249a0a67045f93df4adfdd"
   },
   "peerDependencies": {
     "@angular/common": ">=17",
@@ -37,6 +52,20 @@
     "@angular/core": "21.2.24",
     "@angular/platform-browser": "21.2.24",
     "@angular/router": "21.2.24",
-    "rxjs": "7.8.2"
+    "@biomejs/biome": "2.5.15",
+    "@types/node": "22.20.4",
+    "happy-dom": "20.14.5",
+    "publint": "0.3.25",
+    "rxjs": "7.8.2",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "4.1.11"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "allowScripts": {
+    "esbuild": false,
+    "github:ViitoJooj/murkio-html#4ccc8ea80507f56b11249a0a67045f93df4adfdd": true
   }
 }
