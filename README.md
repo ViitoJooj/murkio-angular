@@ -43,14 +43,29 @@ export class Login {
 
 ## Developing
 
-This repository is a git submodule of the Murkio identity service
-(`libs/external/angular`) and is developed from there: the JavaScript packages share one
-npm workspace, and the tests read the contract, the vectors and the fixtures every Murkio
-SDK shares (`libs/spec`).
-
 ```sh
-# in libs/ of the service repository, cloned with --recurse-submodules
-npm ci
-npm run build
+npm ci     # also builds the package (the `prepare` script)
 npm test
 ```
+
+`@murkio/html` is not on the npm registry yet, so `package.json` takes it from its
+repository at a pinned commit, built on install; `.npmrc` allows that (npm 12 refuses git
+dependencies by default) and `npm publish` refuses to run until the dependency is a plain
+version. The tests run against that build, the same code an application gets.
+
+The checks in `infra/pipeline/` are kept in the Murkio identity service and synced from
+there, so they are not edited here.
+
+Every pull request runs the workflows in `.github/workflows`. The same checks, locally:
+
+| Workflow | What it runs |
+| --- | --- |
+| Build | `npm run build`, `npm run package:check` (publint) and `npm pack --dry-run`, on Node.js 20 and 24 |
+| Format | `npm run format:check` (Biome; `npm run format` fixes) |
+| Lint | `npm run lint` (Biome), `npm run typecheck` (strict TypeScript) |
+| Tests | `npm test` on Node.js 20 and 24 |
+| Quality & Governance Checks | `for check in infra/pipeline/*.py; do python3 "$check"; done` |
+| Security | `npm audit --omit=dev`, `npm audit --audit-level=high`, `npm audit signatures`, `gitleaks git .`, `zizmor --pedantic .` |
+| CodeQL, Dependency Review | run by GitHub on the pull request |
+
+Security reports: see [SECURITY.md](SECURITY.md).
