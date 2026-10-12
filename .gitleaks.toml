@@ -1,0 +1,4 @@
+# The secret scan (the Security workflow) uses the default gitleaks rules. A
+# path is listed here only when what it holds looks like a secret and is not.
+[extend]
+useDefault = true

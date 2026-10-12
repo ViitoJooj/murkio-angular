@@ -1,0 +1,9 @@
+# The runtime dependencies this SDK ships with, one per line, each with the
+# reason it is needed. infra/pipeline/verify_dependencies.py fails when the
+# manifest and this list disagree.
+
+@murkio/html    # the web components and the session client this library wraps
+@angular/core   # peer: providers, signals and the directives' outputs
+@angular/common # peer: HttpInterceptorFn of murkioInterceptor
+@angular/router # peer: CanActivateFn of murkioAuthGuard
+rxjs            # peer: user$ and session$ are observables
