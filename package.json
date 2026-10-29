@@ -54,7 +54,7 @@
     "@angular/router": "21.2.24",
     "@biomejs/biome": "2.5.15",
     "@types/node": "22.20.4",
-    "happy-dom": "20.14.5",
+    "happy-dom": "21.0.4",
     "publint": "0.3.25",
     "rxjs": "7.8.2",
     "tsup": "8.5.1",
